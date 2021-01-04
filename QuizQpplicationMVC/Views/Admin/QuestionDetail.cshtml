@@ -1,0 +1,45 @@
+﻿@model QuizQpplicationMVC.Models.Question
+
+@using QuizQpplicationMVC.Models;
+
+@{
+    ViewBag.Title = "QuestionDetail";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<br />
+<dt>
+    @Html.DisplayNameFor(model => model.Quiz.QuizName)
+</dt>
+
+<dd>
+    @Html.DisplayFor(model => model.Quiz.QuizName)
+</dd>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@Html.DisplayFor(model => model.QuestionText)</h2>
+        
+        <br />
+
+
+        @foreach (var i in ViewData["list"] as List<string>)
+        {
+            <dd>
+                <span class="glyphicon glyphicon-hand-right"></span>&nbsp;&nbsp;&nbsp;  @i
+            </dd>
+        }
+        <dt>
+            Answer:
+        </dt>
+        <dd>
+            @ViewBag.ans
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back", "QuestionOfQuizz", new RouteValueDictionary(
+                        new { controller = "Admin", action = "QuestionOfQuizz", Id = Convert.ToInt32(TempData["quizz_id"]) }))
+</p>

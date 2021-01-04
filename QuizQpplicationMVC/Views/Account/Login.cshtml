@@ -1,0 +1,70 @@
+﻿@model QuizQpplicationMVC.Models.Admin
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            Welcome to |QUIZZ|, a website where you can study with |quizzs| in a variety of fields, or a place to relax with fun, interesting |quizzs|.<br />
+            For convenience, read some of our tutorials first.
+        </div>
+    </div>
+    <h3>Oh, our Admin!</h3>
+    <ul>
+        <li>Your return is an honor for us.</li>
+        <li>Your contribution for this |QUIZZ| is always appreciated and appreciated from us.</li>
+        <li>Fighting, our friend! </li>
+    </ul>
+</div>
+
+@if (ViewBag.msg != null)
+{
+    <div class="alert alert-danger">
+        <strong>Error!</strong> @ViewBag.msg
+    </div>
+}
+
+<hr />
+<div class="panel panel-default" style="width: 37%; margin: 5% 32%;">
+    <div class="panel-heading">Login as Admin ^_^</div>
+    <div class="panel-body">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <div class="">
+                        @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control", @placeholder = "Username ...", @style = "width:100%; margin-left: 56px;" } })
+                        @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="">
+                        @Html.PasswordFor(model => model.Password, new { @class = "form-control", @placeholder = "Password ...", @style = "width:100%; margin-left: 56px;" })<br />
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="">
+                    <button type="submit" id="Enter" class="btn btn-info btn-lg" style="width:100%;"><span class="glyphicon glyphicon-user"></span>   Login</button>
+
+                </div>
+
+
+                @Html.ActionLink("Register Now!", "AdminRegister")
+            </div>
+        }
+
+    </div>
+
+</div>

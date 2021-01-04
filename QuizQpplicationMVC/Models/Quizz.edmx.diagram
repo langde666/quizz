@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="844cf1ee23b84e07ae0b7d08d6f4f909" Name="Diagram1">
+        <EntityTypeShape EntityType="DBQuizModel.Admin" Width="1.5" PointX="0.75" PointY="5.75" />
+        <EntityTypeShape EntityType="DBQuizModel.Answer" Width="1.5" PointX="5.25" PointY="3.625" />
+        <EntityTypeShape EntityType="DBQuizModel.Choice" Width="1.5" PointX="5.25" PointY="1" />
+        <EntityTypeShape EntityType="DBQuizModel.Question" Width="1.5" PointX="3" PointY="2.125" />
+        <EntityTypeShape EntityType="DBQuizModel.Quiz" Width="1.5" PointX="0.75" PointY="2.375" />
+        <EntityTypeShape EntityType="DBQuizModel.User" Width="1.5" PointX="2.75" PointY="6.75" />
+        <AssociationConnector Association="DBQuizModel.FK_Answers_Questions" />
+        <AssociationConnector Association="DBQuizModel.FK_Choices_Questions" />
+        <AssociationConnector Association="DBQuizModel.FK_Questions_Quiz" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

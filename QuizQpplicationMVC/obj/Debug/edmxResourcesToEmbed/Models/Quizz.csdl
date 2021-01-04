@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DBQuizModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="DBQuizEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Admins" EntityType="DBQuizModel.Admin" />
+    <EntitySet Name="Answers" EntityType="DBQuizModel.Answer" />
+    <EntitySet Name="Choices" EntityType="DBQuizModel.Choice" />
+    <EntitySet Name="Questions" EntityType="DBQuizModel.Question" />
+    <EntitySet Name="Quizs" EntityType="DBQuizModel.Quiz" />
+    <EntitySet Name="Users" EntityType="DBQuizModel.User" />
+    <AssociationSet Name="FK_Answers_Questions" Association="DBQuizModel.FK_Answers_Questions">
+      <End Role="Question" EntitySet="Questions" />
+      <End Role="Answer" EntitySet="Answers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Choices_Questions" Association="DBQuizModel.FK_Choices_Questions">
+      <End Role="Question" EntitySet="Questions" />
+      <End Role="Choice" EntitySet="Choices" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Questions_Quiz" Association="DBQuizModel.FK_Questions_Quiz">
+      <End Role="Quiz" EntitySet="Quizs" />
+      <End Role="Question" EntitySet="Questions" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Admin">
+    <Key>
+      <PropertyRef Name="AdminID" />
+    </Key>
+    <Property Name="AdminID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Username" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ProfilImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Answer">
+    <Key>
+      <PropertyRef Name="AnswerID" />
+    </Key>
+    <Property Name="AnswerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AnswerText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="QuestionID" Type="Int32" />
+    <NavigationProperty Name="Question" Relationship="DBQuizModel.FK_Answers_Questions" FromRole="Answer" ToRole="Question" />
+  </EntityType>
+  <EntityType Name="Choice">
+    <Key>
+      <PropertyRef Name="ChoiceID" />
+    </Key>
+    <Property Name="ChoiceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ChoiceText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="QuestionID" Type="Int32" />
+    <NavigationProperty Name="Question" Relationship="DBQuizModel.FK_Choices_Questions" FromRole="Choice" ToRole="Question" />
+  </EntityType>
+  <EntityType Name="Question">
+    <Key>
+      <PropertyRef Name="QuestionID" />
+    </Key>
+    <Property Name="QuestionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="QuestionText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="QuizID" Type="Int32" />
+    <NavigationProperty Name="Answers" Relationship="DBQuizModel.FK_Answers_Questions" FromRole="Question" ToRole="Answer" />
+    <NavigationProperty Name="Choices" Relationship="DBQuizModel.FK_Choices_Questions" FromRole="Question" ToRole="Choice" />
+    <NavigationProperty Name="Quiz" Relationship="DBQuizModel.FK_Questions_Quiz" FromRole="Question" ToRole="Quiz" />
+  </EntityType>
+  <EntityType Name="Quiz">
+    <Key>
+      <PropertyRef Name="QuizID" />
+    </Key>
+    <Property Name="QuizID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="QuizName" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Questions" Relationship="DBQuizModel.FK_Questions_Quiz" FromRole="Quiz" ToRole="Question" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ProfilImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <Association Name="FK_Answers_Questions">
+    <End Type="DBQuizModel.Question" Role="Question" Multiplicity="0..1" />
+    <End Type="DBQuizModel.Answer" Role="Answer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Question">
+        <PropertyRef Name="QuestionID" />
+      </Principal>
+      <Dependent Role="Answer">
+        <PropertyRef Name="QuestionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Choices_Questions">
+    <End Type="DBQuizModel.Question" Role="Question" Multiplicity="0..1" />
+    <End Type="DBQuizModel.Choice" Role="Choice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Question">
+        <PropertyRef Name="QuestionID" />
+      </Principal>
+      <Dependent Role="Choice">
+        <PropertyRef Name="QuestionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Questions_Quiz">
+    <End Type="DBQuizModel.Quiz" Role="Quiz" Multiplicity="0..1" />
+    <End Type="DBQuizModel.Question" Role="Question" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Quiz">
+        <PropertyRef Name="QuizID" />
+      </Principal>
+      <Dependent Role="Question">
+        <PropertyRef Name="QuizID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

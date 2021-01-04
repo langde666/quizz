@@ -1,0 +1,32 @@
+﻿@model QuizQpplicationMVC.Models.User
+
+@{
+    ViewBag.Title = "ChangeAvatar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Your Account</h2>
+
+@using (Html.BeginForm(@Html.BeginForm("ChangeAvatar", "Account", FormMethod.Post, new { enctype = "multipart/form-data" })))
+{
+    @Html.AntiForgeryToken()
+    <div>
+        <hr />
+        <img src="@string.Format("{0}{1}", Url.Content("~/Content/images/"), Model.ProfilImage)" class="img-circle" style="width:200px;height:200px" />
+        <br /><br />
+        <input type="file" id="img" name="img" />
+        <button type="submit" id="submit" class="btn btn-info" style="width:20%;"><span class="glyphicon glyphicon-camera"></span>   Change avatar</button>
+        <hr />
+        <dl class="">
+            <dt>
+                @Html.DisplayFor(model => model.FullName)
+            </dt>
+
+        </dl>
+    </div>
+    
+}
+
+<p>
+    @Html.ActionLink("Back", "SelectQuizz", "Quizz")
+</p>

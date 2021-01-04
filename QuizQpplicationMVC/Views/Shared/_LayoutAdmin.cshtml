@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="container">
+
+        @*<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="height:900px; border:1px solid gray; background-color:#808080">
+
+            <div style="width:100%" class="container list-group">
+
+                <div class="list-group-item">
+                    @Html.ActionLink("Quizz", "Index", "Admin", new { @class = "list-group-item" })
+                </div>
+
+                <div class="list-group-item">
+                    @Html.ActionLink("Question", "ShowQuestion", "Admin", new { @class = "list-group-item" })
+                </div>
+
+            </div>
+
+        </div>*@
+
+        @*<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10" style="height:900px; border:1px solid gray">*@
+
+            <div class="admin" style="border:2px dashed #cecaca; border-radius: 10px; margin-top: 3%;">
+
+                @{ Html.RenderPartial("_AdminInfo");}
+
+                @Html.ActionLink("Logout", "Logout", "Account")
+
+            </div>
+
+            @RenderBody()
+            <hr />
+        @*</div>*@
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    @RenderSection("MyScritps", required: false)
+</body>
+</html>

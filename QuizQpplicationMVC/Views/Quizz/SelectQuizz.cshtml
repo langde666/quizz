@@ -1,0 +1,57 @@
+﻿@model QuizQpplicationMVC.viewModels.QuizVM
+
+@{
+    ViewBag.Title = "SelectQuizz";
+}
+
+
+
+
+<div class="container">
+
+    <div class="userConnected" style="border:2px dashed #cecaca; border-radius: 10px; margin-top: 3%;">
+
+        @{ Html.RenderPartial("_UserInfo");}
+
+        @Html.ActionLink("Your Account", "ChangeAvatar", "Account")
+
+
+
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <br /><br />
+                Welcome to |QUIZZ|, a website where you can study with |quizzs| in a variety of fields, or a place to relax with fun, interesting |quizzs|.<br />
+                For convenience, read some of our tutorials first.
+            </div>
+        </div>
+        <h3>How to use application?</h3>
+        <ul>
+            <li>Sign Up easily with just your name</li>
+            <li>Log In</li>
+            <li>Select a |quizz| and...</li>
+            <li>Let' GO</li>
+        </ul>
+    </div>
+
+    <hr />
+    <div class="SelQuiz">
+        <div class="panel panel-default" style="width: 37%; margin: 5% 32%;">
+            <div class="panel-heading">Select Your Quiz  ^_^</div>
+            <div class="panel-body">
+
+                @using (Html.BeginForm("SelectQuizz", "Quizz", FormMethod.Post))
+                {
+                    @Html.DropDownListFor(model => model.QuizID, Model.ListOfQuizz, new { @class = "form-control", @style = "margin-left:51px;" })<br />
+                    <button type="submit" id="Enter" class="btn btn-success btn-lg" style="width:100%;"><span class="glyphicon glyphicon-ok"></span>   Let's GO </button>
+                }
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+

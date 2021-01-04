@@ -1,0 +1,63 @@
+﻿@model IEnumerable<QuizQpplicationMVC.Models.Quiz>
+
+@{
+    ViewBag.Title = "Quizz";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>|QUIZZ|</h2>
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+
+        <p>
+            @Html.ActionLink("Create New Quizz", "CreateQuizz")
+        </p>
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            &nbsp;&nbsp;&nbsp;<input type="search" name="search" placeholder="seach..." />
+            &nbsp;&nbsp;&nbsp;<button>Try it or Reset</button>
+        </div>
+
+    </div>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            Quizz
+        </th>
+        <th>
+            Number of questions
+        </th>
+        <th>
+            Question Library
+        </th>
+        <th></th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in ViewData["list"] as List<QuizQpplicationMVC.Models.Quiz>)
+    {
+        <tr>
+            <td>
+                @item.QuizName
+            </td>
+            <td>
+                @item.Questions.Count()
+            </td>
+            <td><a class="btn btn-info btn-info" href="@Url.Action("QuestionOfQuizz", new { id=item.QuizID })">View and Update Library</a></td>
+            <td><a class="btn btn-warning btn-sm" href="@Url.Action("EditQuizz", new { id=item.QuizID })">Edit QuizzName</a></td>
+            <td><a class="btn btn-danger btn-sm" href="@Url.Action("DeleteQuizz", new { id=item.QuizID })">Delete (if Quizz has no Question)</a></td>
+        </tr>
+    }
+
+</table>

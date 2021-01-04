@@ -1,0 +1,28 @@
+﻿
+@using QuizQpplicationMVC.Models
+@{
+    int adid = (int)Session["ad_id"];
+
+    DBQuizEntities db = new DBQuizEntities();
+    Admin admin = db.Admins.Where(x => x.AdminID == adid).SingleOrDefault();
+}
+
+
+@if (admin != null)
+{
+    <div class="row">
+
+        <div class="col-md-4">
+            <img src="@string.Format("{0}{1}", Url.Content("~/Content/images/"), admin.ProfilImage)" class="img-circle" style="width: 12%;" />
+            <span> <b>Welcome :</b> @admin.FullName</span>
+        </div>
+
+        <div class="col-md-4" style="margin-top: 15px;">
+            <span> <b>Date :</b> @DateTime.Now</span>
+        </div>
+
+    </div>
+}
+
+
+

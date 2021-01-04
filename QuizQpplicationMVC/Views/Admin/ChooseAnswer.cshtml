@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "ChooseAnswer";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Choose Answer</h2>
+<hr />
+<h2>Question: @TempData["ques_name"]</h2>
+<p>
+    @Html.ActionLink("Cancel", "DeleteQuestion", new RouteValueDictionary(
+                        new { controller = "Admin", action = "DeleteQuestion", Id = Convert.ToInt32(TempData["ques_id"]) }))
+</p>
+<hr />
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    {
+        <div class="container">
+            <div>
+                <label for="ans">Choose an answer: </label>
+                <select name="ans" id="ans">
+                    @foreach (var i in ViewData["list"] as List<string>)
+                    {
+                        <option value="@i">@i</option>
+                    }
+                </select>
+                <br />
+                <input type="submit" value="Submit" class="btn btn-success" />
+            </div>
+        </div>
+    }
+}

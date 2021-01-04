@@ -1,0 +1,168 @@
+﻿@model IQueryable<QuizQpplicationMVC.viewModels.QuestionVM>
+
+@{
+    int count = 1, countR = 0;
+}
+
+
+<div class="container">
+
+    <!-- User Info -->
+    <div class="userConnected" style="border:2px dashed #cecaca; border-radius: 10px; margin-top: 3%;">
+
+        @{ Html.RenderPartial("_UserInfo");}
+
+        @Html.ActionLink("Your Account", "ChangeAvatar", "Account")
+
+    </div>
+
+    <br />
+    <br />
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                Welcome to |QUIZZ|, a website where you can study with |quizzs| in a variety of fields, or a place to relax with fun, interesting |quizzs|.<br />
+                For convenience, read some of our tutorials first.
+            </div>
+        </div>
+        <h3>Tips</h3>
+        <ul>
+            <li>Select the true answer.</li>
+            <li>Click "Submit Quiz" to end.</li>
+            <li>Easy, right? Good Luck!</li>
+            <li>You can also join another one with "Join another one!" button, right? =))</li>
+        </ul>
+    </div>
+    <hr />
+
+    <div class="Quiz">
+
+        <h4 style="margin-top: 4%;"> <span class="label label-info">Questions :</span> </h4>
+
+        @if (Model != null && Model.Any())
+        {
+
+            foreach (var question in Model)
+            {
+                <div class="BlockQ" style="border: 1px solid #bdbdbd; width: 75%; border-radius: 4px; margin-top: 40px; background-color: #f0ffff; padding: 8px;">
+
+                    <div class="Question" style="padding: 2%;">
+                        <span class="label label-warning"> @string.Format("{0}{1}.", "Q", count)</span>
+                        <span id="@string.Format("{0}{1}", "ID_Q", count)" style="display:none;">@question.QuestionID</span>
+                        <p style="display: inline; padding: 2%;" id="@string.Format("{0}{1}", "Q", count)">@question.QuestionText</p>
+                    </div>
+
+                    <div class="Choices" style="margin-left: 8%;">
+
+                        @foreach (var choice in question.Choices)
+                        {
+                            <label class="radio-inline">
+                                <input type="radio" name="@string.Format("{0}{1}", "inlineRadioOptions",count)" id="@string.Format("{0}{1}", "inlineRadio", countR)" value="@choice.ChoiceText" style="margin-left: -16px;"> @choice.ChoiceText
+                            </label><br />
+                            countR++;
+                        }
+
+                    </div> <!--END Choices-->
+
+                    <div id="@string.Format("{0}{1}{2}", "Ans","Q", count)">
+
+
+                    </div>
+
+                </div> <!-- END BlockQ -->
+                count++;
+            }
+            <span id="countQuections" style="display:none;">@count</span>
+            <button type="button" id="SubmitQuiz" class="btn btn-default" style="margin-top: 10px;"><span class="glyphicon glyphicon-ok"></span>   Submit Quiz </button>
+
+
+        }
+
+    </div> <!-- END QUIZ -->
+
+</div> <!-- END CONTAINER -->
+
+<p>
+    <hr />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@Html.ActionLink("Join another one!", "SelectQuizz", "Quizz")
+</p>
+
+@section MyScritps
+{
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+
+            $('#SubmitQuiz').on('click', function () {
+
+                //count Questions
+                var sel = $('#countQuections').text();
+
+                console.log(sel);
+
+                var resultQuiz = [], countQuestion = parseInt(sel), question = {}, j = 1;
+
+                for (var i = 1; i < countQuestion; i++) {
+                    question = {
+                        QuestionID: $('#ID_Q'+ i).text(),
+                        QuestionText: $('#Q' + i).text(),
+                        AnswerQ: $('input[name=inlineRadioOptions' + i + ']:checked').val()
+                    }
+
+                    resultQuiz.push(question);
+                }
+
+                $.ajax({
+
+                    type: 'POST',
+                    url: '@Url.Action("QuizTest", "Quizz")',
+                    data: { resultQuiz },
+
+                    success: function (response) {
+
+                        var score = 0;
+
+                        if (response.result.length > 0)
+                        {
+                            for(var i = 0; i <response.result.length; i++ )
+                            {
+                                if(response.result[i].isCorrect == true)
+                                {
+                                    var x = i + 1;
+                                    score++;
+                                    $('#AnsQ' + j).html('<div class="alert alert-success" role="alert"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Correct answer.<br /></div><div class="alter alert-info" role="alert"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Your score is <b>' + score + '/'+ x +'</b>.</div>');
+                                }
+                                else
+                                {
+                                    var x = i + 1;
+                                    $('#AnsQ' + j).html('<div class="alert alert-danger" role="alert"> <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Incorrect answer - The Good Answer is <b>' + response.result[i].AnswerQ + '</b>.<br /></div><div class="alter alert-info" role="alert"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Your score is <b>' + score + '/' + x +'</b>.</div>');
+                                }
+                                j++;
+                            }
+
+                           
+                        }
+                        else
+                        {
+                            alert("Something Wrong");
+                        }
+
+
+                        //console.log(response.result.length);
+
+                    },
+                    error: function (response) {
+
+                    }
+                });
+
+                console.log(resultQuiz);
+            });
+
+
+
+        });
+
+    </script>
+}
